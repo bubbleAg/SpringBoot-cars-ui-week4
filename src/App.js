@@ -1,45 +1,36 @@
 import React, { Component } from 'react';
 import CarTable from './CarTable';
+import CarEdit from './CarEdit';
+import CarAdd from './CarAdd';
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
-
-        this.deleteCar = this.deleteCar.bind(this);
-        this.getAllCars = this.getAllCars.bind(this);
-    }
-
-    state = {
-        cars: [],
-    }
-
-    deleteCar(id) {
-        fetch(`http://localhost:8080/cars/delete/${id}`, {
-            method: 'POST'
-        })
-
-        this.getAllCars();
-    }
-
-    getAllCars() {
-        fetch('http://localhost:8080/cars')
-            .then(response => response.json())
-            .then(data => {
-                if (data._embedded) {
-                    this.setState({ cars: data._embedded.carList })
-                }
-            });
-    }
-
-    componentDidMount() {
-        this.getAllCars();
-    }
-
     render() {
         return (
-            <div className="panel-body">
-                <CarTable onDeleteCar={this.deleteCar} cars={this.state.cars} />
-            </div>
+            <Router>
+                <div>
+                    <Switch>
+                        <Route path="/cars/edit/:id" component={CarEdit} />
+                        <Route path="/cars/add" component={CarAdd} />
+                        <Route path="/cars">
+                            <div className="container my-3">
+                                <Link className="btn btn-info" to="/cars/add">
+                                    Add new car
+                                </Link>
+                            </div>
+
+                            <CarTable />
+                        </Route>
+                    </Switch>
+                </div>
+            </Router>
+
         );
     }
 }

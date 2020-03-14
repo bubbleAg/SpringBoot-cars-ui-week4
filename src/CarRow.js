@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom'
+
 export default class CarRow extends Component {
     render() {
-        const { id, mark, color, model } = this.props.car;
+        const { car, headers } = this.props;
+        const link = `/cars/edit/${car.id}`;
 
         return (
             <tr>
-                <td>{id}</td>
-                <td>{mark}</td>
-                <td>{model}</td>
-                <td>{color}</td>
+                {headers.map(header => <td key={header.property}>{car[header.property]}</td>)}
+
                 <td>
-                    <button className="btn btn-danger" onClick={() => this.props.onDeleteRow(id)}> X </button>
+                    <Link className="btn btn-info" to={link}>Edit</Link>
+                </td>
+                <td>
+                    <button className="btn btn-danger" onClick={() => this.props.onDeleteRow(car.id)}> X </button>
                 </td>
             </tr>
         )
