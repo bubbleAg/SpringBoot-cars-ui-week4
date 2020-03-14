@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Car from './Car';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+
+    state = {
+        cars: [],
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:8080/cars')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                this.setState({ cars: data._embedded.carList })
+            });
+    }
+
+    render() {
+        return (
+            <div>
+                Cars:
+                {this.state.cars.map(car => <Car key={car.id} data={car} />)}
+            </div>
+        );
+    }
 }
-
-export default App;
