@@ -1,26 +1,44 @@
 import React, { Component } from 'react';
-import Car from './Car';
+import CarTable from './CarTable';
 
 export default class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.deleteCar = this.deleteCar.bind(this);
+        this.getAllCars = this.getAllCars.bind(this);
+    }
 
     state = {
         cars: [],
     }
 
-    componentDidMount() {
+    deleteCar(id) {
+        fetch(`http://localhost:8080/cars/delete/${id}`, {
+            method: 'POST'
+        })
+
+        this.getAllCars();
+    }
+
+    getAllCars() {
         fetch('http://localhost:8080/cars')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                this.setState({ cars: data._embedded.carList })
+                if (data._embedded) {
+                    this.setState({ cars: data._embedded.carList })
+                }
             });
+    }
+
+    componentDidMount() {
+        this.getAllCars();
     }
 
     render() {
         return (
-            <div>
-                Cars:
-                {this.state.cars.map(car => <Car key={car.id} data={car} />)}
+            <div className="panel-body">
+                <CarTable onDeleteCar={this.deleteCar} cars={this.state.cars} />
             </div>
         );
     }
