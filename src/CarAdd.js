@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Link,
-    Redirect
-} from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom';
 
 export default class CarAdd extends Component {
     state = {
@@ -18,15 +14,16 @@ export default class CarAdd extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(this.state.car)
-        }).then(r => {
-            if (r.ok) {
+        })
+            .then(r => {
+                if (r.ok == false) {
+                    r.json().then(r => alert(r.message));
+                    return;
+                }
+
                 alert('success :)');
                 this.setState({ redirect: true })
-                return;
-            }
-
-            alert('Failed to add new car.')
-        });
+            })
     }
 
     onInputChange({ target }) {
