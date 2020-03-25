@@ -13,7 +13,7 @@ export default class CarRow extends Component {
 
         return (
             <tr>
-                {headers.map(header => <td key={header.property}>{car[header.property]}</td>)}
+                {headers.map(header => <td align="center" key={header.property}>{car[header.property]}</td>)}
 
                 <td>
                     <Link className="btn btn-info" to={link}>Edit</Link>

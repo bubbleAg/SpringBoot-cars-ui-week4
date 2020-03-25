@@ -16,13 +16,12 @@ export default class CarEdit extends Component {
         fetch(`http://localhost:8080/cars/${id}`)
             .then(response => response.json())
             .then(data => {
-                console.log('get car by id', data);
                 this.setState({ car: data, isLoaded: true })
             });
     }
 
-    modifyCar() {
-        fetch(`http://localhost:8080/cars`, {
+    modifyCar(id) {
+        fetch(`http://localhost:8080/cars/modify/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,9 +50,10 @@ export default class CarEdit extends Component {
         this.setState({ car });
     }
 
-    onSubmit(e) {
+    onSubmit(e) {        
+        const { id } = this.props.match.params;
         e.preventDefault();
-        this.modifyCar();
+        this.modifyCar(id);
     }
 
     render() {
@@ -63,13 +63,6 @@ export default class CarEdit extends Component {
             <div className="container">
                 <Link className="my-3 btn btn-info" to="/cars">Back to all cars</Link>
                 {isLoaded && <form onSubmit={this.onSubmit.bind(this)}>
-                    <div className="form-group">
-                        <label>Id</label>
-                        <input className="form-control"
-                            value={car.id}
-                            disabled />
-                    </div>
-
                     <div className="form-group">
                         <label>Mark</label>
                         <input type="text"
@@ -95,6 +88,15 @@ export default class CarEdit extends Component {
                             name="color"
                             onChange={(e) => this.onInputChange(e)}
                             value={car.color} />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Production Year</label>
+                        <input type="number"
+                            className="form-control"
+                            name="productionYear"
+                            onChange={(e) => this.onInputChange(e)}
+                            value={car.productionYear} />
                     </div>
                     <button
                         type="submit"

@@ -45,12 +45,6 @@ export default class CarAdd extends Component {
             <div className="container">
                 <Link className="my-3 btn btn-info" to="/cars">Back to all cars</Link>
                 <form onSubmit={this.onSubmit.bind(this)}>
-                    <div className="form-group">
-                        <label>Id</label>
-                        <input className="form-control"
-                            name="id"
-                            onChange={(e) => this.onInputChange(e)} />
-                    </div>
 
                     <div className="form-group">
                         <label>Mark</label>
@@ -73,6 +67,14 @@ export default class CarAdd extends Component {
                         <input type="text"
                             className="form-control"
                             name="color"
+                            onChange={(e) => this.onInputChange(e)} />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Production Year</label>
+                        <input type="number"
+                            className="form-control"
+                            name="productionYear"
                             onChange={(e) => this.onInputChange(e)} />
                     </div>
                     <button

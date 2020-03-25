@@ -13,10 +13,6 @@ export default class CarTable extends Component {
         cars: [],
         headers: [
             {
-                name: 'ID',
-                property: 'id',
-            },
-            {
                 name: 'Mark',
                 property: 'mark',
             },
@@ -27,6 +23,10 @@ export default class CarTable extends Component {
             {
                 name: 'Color',
                 property: 'color',
+            },
+            {
+                name: 'Production Year',
+                property: 'productionYear',
             },
         ]
     }
@@ -61,7 +61,7 @@ export default class CarTable extends Component {
                     cars.length
                         ? <table className="table table-striped">
                             <thead>
-                                <tr>
+                                <tr align="center">
                                     {headers.map(header => <th key={header.property}>{header.name}</th>)}
                                     <th></th>
                                     <th></th>
